@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Cinema | Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #0f172a; color: white; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body>
+    <nav class="fixed w-full z-50 p-6 flex justify-between items-center glass">
+        <div class="text-2xl font-bold text-blue-500">404 <span class="text-white">CINEMA</span></div>
+    </nav>
+
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <video autoplay muted loop class="absolute w-full h-full object-cover opacity-30">
+            <source src="https://drive.google.com/uc?export=download&id=1WFCoSWozt4vngbNO4tKQQw-9rytk3qA5" type="video/mp4">
+        </video>
+        <div class="relative z-10 text-center px-4">
+            <h1 class="text-6xl font-bold mb-4">MY <span class="text-blue-500">MOVIES</span></h1>
+            <p class="text-gray-400 mb-8">ยินดีต้อนรับสู่คลังภาพยนตร์ส่วนตัวของผม</p>
+            <button onclick="playMovie('https://drive.google.com/uc?export=download&id=1WFCoSWozt4vngbNO4tKQQw-9rytk3qA5')" class="bg-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition">รับชมผลงานล่าสุด</button>
+        </div>
+    </section>
+
+    <script>
+        function playMovie(videoUrl) {
+            const modal = document.createElement('div');
+            modal.className = "fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4";
+            modal.innerHTML = `
+                <div class="relative w-full max-w-4xl">
+                    <button onclick="this.parentElement.parentElement.remove()" class="absolute -top-12 right-0 text-white text-xl">✕ ปิดหน้าต่าง</button>
+                    <video src="${videoUrl}" controls autoplay class="w-full rounded-xl shadow-2xl border border-white/10"></video>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+    </script>
+</body>
+</html>
