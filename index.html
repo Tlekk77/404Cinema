@@ -5,42 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 CINEMA | Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Kanit', sans-serif; background-color: #050811; color: white; }
-        .movie-gradient { background: linear-gradient(to top, #050811 0%, transparent 100%); }
+        body { font-family: 'Roboto', sans-serif; background-color: #141414; color: white; overflow-x: hidden; }
+        .hero-gradient { background: linear-gradient(to top, #141414 5%, transparent 100%); }
+        .nav-bg { background-color: rgba(20, 20, 20, 0.9); }
+        .movie-card:hover { transform: scale(1.1); z-index: 20; }
     </style>
 </head>
 <body>
-    <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center bg-black/60 backdrop-blur-md">
-        <div class="text-3xl font-black text-blue-500 italic">404<span class="text-white">CINEMA</span></div>
-        <div class="hidden md:flex gap-8 text-sm font-light uppercase tracking-widest">
-            <a href="index.html" class="text-blue-500">Home</a>
-            <a href="action.html" class="hover:text-blue-500 transition">Action</a>
-            <a href="vlogs.html" class="hover:text-blue-500 transition">Vlogs</a>
-            <a href="shortfilms.html" class="hover:text-blue-500 transition">Short Films</a>
+    <nav class="fixed w-full z-50 px-10 py-4 flex items-center justify-between transition-all duration-500" id="navbar">
+        <div class="flex items-center gap-10">
+            <div class="text-3xl font-bold text-[#E50914] tracking-tighter">404 CINEMA</div>
+            <div class="hidden lg:flex gap-6 text-sm font-medium">
+                <a href="index.html" class="text-white border-b-2 border-red-600 pb-1">Home</a>
+                <a href="action.html" class="text-gray-300 hover:text-white transition">Action</a>
+                <a href="vlogs.html" class="text-gray-300 hover:text-white transition">Vlogs</a>
+                <a href="shorts.html" class="text-gray-300 hover:text-white transition">Short Films</a>
+            </div>
         </div>
     </nav>
 
-    <header class="relative h-screen flex items-end pb-20 px-12">
-        <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover opacity-40">
+    <header class="relative h-[85vh] w-full flex items-center px-10">
+        <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover opacity-50">
             <source src="https://drive.google.com/uc?export=download&id=1WFCoSWozt4vngbNO4tKQQw-9rytk3qA5" type="video/mp4">
         </video>
-        <div class="absolute inset-0 movie-gradient"></div>
-        <div class="relative z-10">
-            <h1 class="text-7xl font-bold mb-4">WELCOME TO <br><span class="text-blue-500">404 STUDIO</span></h1>
-            <button onclick="playMovie('https://drive.google.com/uc?export=download&id=1WFCoSWozt4vngbNO4tKQQw-9rytk3qA5')" class="bg-white text-black px-10 py-3 rounded-md font-bold hover:bg-blue-500 hover:text-white transition">WATCH TRAILER</button>
+        <div class="absolute inset-0 hero-gradient"></div>
+        <div class="relative z-10 max-w-2xl">
+            <h1 class="text-7xl font-bold mb-4 uppercase tracking-tighter italic">404 ORIGIN</h1>
+            <p class="text-lg mb-8 text-gray-200">ยินดีต้อนรับสู่โลกแห่งจินตนาการ คลังเก็บผลงานวิดีโอและภาพยนตร์สั้นของ 404 Studio</p>
+            <div class="flex gap-4">
+                <button onclick="playMovie('https://drive.google.com/uc?export=download&id=1WFCoSWozt4vngbNO4tKQQw-9rytk3qA5')" class="bg-white text-black px-10 py-3 rounded-md font-bold text-xl hover:bg-gray-200">▶ Play</button>
+                <button class="bg-gray-500/50 text-white px-10 py-3 rounded-md font-bold text-xl backdrop-blur-md">ⓘ More Info</button>
+            </div>
         </div>
     </header>
 
-    <div id="videoModal" class="hidden fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4">
-        <div class="relative w-full max-w-5xl">
-            <button onclick="closeMovie()" class="absolute -top-10 right-0 text-white text-2xl">✕ Close</button>
-            <video id="mainPlayer" controls class="w-full rounded-xl shadow-2xl"></video>
+    <main class="px-10 -mt-20 relative z-20 space-y-16 pb-20">
+        <section>
+            <h2 class="text-2xl font-bold mb-4">Trending Now</h2>
+            <div class="flex gap-3 overflow-x-auto pb-10 no-scrollbar">
+                <div onclick="playMovie('https://drive.google.com/uc?export=download&id=1WFCoSWozt4vngbNO4tKQQw-9rytk3qA5')" class="movie-card min-w-[280px] aspect-video bg-zinc-800 rounded-md overflow-hidden cursor-pointer transition duration-300 border border-transparent hover:border-gray-400">
+                    <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=500" class="w-full h-full object-cover">
+                </div>
+                </div>
+        </section>
+    </main>
+
+    <div id="videoModal" class="hidden fixed inset-0 z-[100] bg-black/95 flex items-center justify-center">
+        <button onclick="closeMovie()" class="absolute top-10 right-10 text-white text-4xl hover:text-red-600">✕</button>
+        <div class="w-[85%] aspect-video bg-black shadow-2xl rounded-lg overflow-hidden">
+            <video id="mainPlayer" controls class="w-full h-full"></video>
         </div>
     </div>
 
     <script>
+        window.onscroll = () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) nav.classList.add('nav-bg');
+            else nav.classList.remove('nav-bg');
+        };
         function playMovie(url) {
             const modal = document.getElementById('videoModal');
             const player = document.getElementById('mainPlayer');
@@ -53,6 +77,7 @@
             const player = document.getElementById('mainPlayer');
             modal.classList.add('hidden');
             player.pause();
+            player.src = "";
         }
     </script>
 </body>
