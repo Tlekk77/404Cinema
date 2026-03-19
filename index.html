@@ -11,12 +11,26 @@
 
 <body class="bg-black text-white">
 
-<!-- 🔍 Navbar -->
-<nav class="flex justify-between p-4 bg-gray-900">
-  <h1 class="text-red-600 text-xl">404Cinema</h1>
-  <input id="search" type="text" placeholder="ค้นหาหนัง..."
+<!-- 🔥 Navbar -->
+<nav class="flex justify-between items-center px-6 py-4 bg-gradient-to-b from-black to-gray-900">
+  <h1 class="text-red-600 text-2xl font-bold">404Cinema</h1>
+  <input id="search" type="text" placeholder="ค้นหา..."
     class="px-3 py-1 text-black rounded">
 </nav>
+
+<!-- 🎬 Hero -->
+<div class="relative h-[60vh] flex items-center px-10">
+  <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db"
+       class="absolute w-full h-full object-cover opacity-40">
+
+  <div class="relative z-10">
+    <h1 class="text-5xl font-bold mb-4">🔥 Featured Movie</h1>
+    <p class="mb-4 text-gray-300">ดูหนังระดับพรีเมียมแบบไม่อั้น</p>
+    <button class="bg-red-600 px-6 py-3 rounded-lg text-lg hover:bg-red-700">
+      ▶ เล่นเลย
+    </button>
+  </div>
+</div>
 
 <!-- 🎞️ หมวด -->
 <div class="p-4">
@@ -26,35 +40,47 @@
 </div>
 
 <!-- 🎬 หนัง -->
-<div id="movieList" class="flex gap-4 overflow-x-auto p-4"></div>
+<div id="movieList" class="flex gap-6 overflow-x-auto p-6"></div>
 
 <script>
 
-// แสดงหนัง
+// 🎬 render
 function render(list) {
   const container = document.getElementById("movieList");
   container.innerHTML = "";
 
   list.forEach(m => {
     container.innerHTML += `
-      <div class="relative min-w-[200px] cursor-pointer"
+      <div class="relative min-w-[220px] group cursor-pointer"
         onclick="openPlayer('${m.video}')">
 
-        <img src="${m.thumbnail}" class="rounded-lg">
+        <img src="${m.thumbnail}" 
+          class="rounded-xl shadow-lg transform group-hover:scale-110 transition duration-300">
 
-        <!-- 🎥 Preview -->
-        <video class="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-100 transition"
+        <!-- overlay -->
+        <div class="absolute inset-0 bg-black bg-opacity-60 opacity-0 
+          group-hover:opacity-100 transition flex flex-col justify-end p-3 rounded-xl">
+
+          <p class="text-lg font-bold">${m.title}</p>
+
+          <button class="mt-2 bg-red-600 px-3 py-1 rounded hover:bg-red-700">
+            ▶ ดู
+          </button>
+        </div>
+
+        <!-- preview -->
+        <video class="absolute top-0 left-0 w-full h-full object-cover opacity-0 
+          group-hover:opacity-100 transition duration-300 rounded-xl"
           muted loop onmouseover="this.play()" onmouseout="this.pause()">
           <source src="${m.preview}" type="video/mp4">
         </video>
 
-        <p class="mt-2">${m.title}</p>
       </div>
     `;
   });
 }
 
-// 🎬 เปิดหน้า player
+// 🎬 เปิด player
 function openPlayer(video) {
   window.location.href = "player.html?video=" + video;
 }
@@ -66,7 +92,7 @@ document.getElementById("search").addEventListener("input", e => {
   render(filtered);
 });
 
-// 🎞️ ฟิลเตอร์
+// 🎞️ filter
 function filter(cat) {
   if(cat === "all") render(movies);
   else render(movies.filter(m => m.category === cat));
