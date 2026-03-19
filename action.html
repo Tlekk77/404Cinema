@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 CINEMA | Action</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#050811] text-white">
+    <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center bg-black/60 backdrop-blur-md">
+        <div class="text-3xl font-black text-blue-500 italic">404<span class="text-white">CINEMA</span></div>
+        <div class="hidden md:flex gap-8 text-sm font-light uppercase tracking-widest">
+            <a href="index.html" class="hover:text-blue-500">Home</a>
+            <a href="action.html" class="text-blue-500">Action</a>
+            <a href="vlogs.html" class="hover:text-blue-500">Vlogs</a>
+            <a href="shortfilms.html" class="hover:text-blue-500">Short Films</a>
+        </div>
+    </nav>
+
+    <section class="pt-32 px-12">
+        <h2 class="text-3xl font-bold mb-10 border-l-4 border-blue-600 pl-4">ACTION MOVIES</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+            <div onclick="playMovie('ใส่_DIRECT_LINK_วิดีโอ_ตรงนี้')" class="cursor-pointer group">
+                <div class="relative aspect-[2/3] overflow-hidden rounded-xl border border-white/10 group-hover:border-blue-500 transition">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">▶</div>
+                </div>
+                <h3 class="mt-4 font-semibold text-sm">Action Movie Title 1</h3>
+            </div>
+        </div>
+    </section>
+
+    </body>
+</html>
