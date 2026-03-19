@@ -7,76 +7,100 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="data.js"></script>
 
+<style>
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+</style>
+
 </head>
 
 <body class="bg-black text-white">
 
 <!-- 🔥 Navbar -->
-<nav class="flex justify-between items-center px-6 py-4 bg-gradient-to-b from-black to-gray-900">
+<nav class="flex justify-between items-center px-6 py-4 bg-black fixed w-full z-50">
   <h1 class="text-red-600 text-2xl font-bold">404Cinema</h1>
-  <input id="search" type="text" placeholder="ค้นหา..."
+  <input id="search" placeholder="ค้นหา..."
     class="px-3 py-1 text-black rounded">
 </nav>
 
+<div class="pt-20"></div>
+
 <!-- 🎬 Hero -->
-<div class="relative h-[60vh] flex items-center px-10">
+<div class="relative h-[70vh] flex items-end px-10">
   <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db"
        class="absolute w-full h-full object-cover opacity-40">
 
-  <div class="relative z-10">
-    <h1 class="text-5xl font-bold mb-4">🔥 Featured Movie</h1>
-    <p class="mb-4 text-gray-300">ดูหนังระดับพรีเมียมแบบไม่อั้น</p>
-    <button class="bg-red-600 px-6 py-3 rounded-lg text-lg hover:bg-red-700">
-      ▶ เล่นเลย
-    </button>
+  <div class="relative z-10 mb-10">
+    <h1 class="text-6xl font-bold mb-4">🔥 FEATURED</h1>
+    <p class="max-w-xl mb-4 text-gray-300">
+      หนังระดับพรีเมียม ดูได้ไม่อั้น
+    </p>
   </div>
 </div>
 
-<!-- 🎞️ หมวด -->
-<div class="p-4">
-  <button onclick="filter('all')" class="mr-2">ทั้งหมด</button>
-  <button onclick="filter('action')" class="mr-2">Action</button>
-  <button onclick="filter('vlogs')" class="mr-2">Vlogs</button>
-</div>
+<!-- 🎞️ ROWS -->
+<div class="px-6 space-y-10 mt-6">
 
-<!-- 🎬 หนัง -->
-<div id="movieList" class="flex gap-6 overflow-x-auto p-6"></div>
+  <div>
+    <h2 class="text-xl mb-3">🔥 Trending</h2>
+    <div id="row-all" class="flex gap-4 overflow-x-auto scrollbar-hide"></div>
+  </div>
+
+  <div>
+    <h2 class="text-xl mb-3">💥 Action</h2>
+    <div id="row-action" class="flex gap-4 overflow-x-auto scrollbar-hide"></div>
+  </div>
+
+  <div>
+    <h2 class="text-xl mb-3">📹 Vlogs</h2>
+    <div id="row-vlogs" class="flex gap-4 overflow-x-auto scrollbar-hide"></div>
+  </div>
+
+</div>
 
 <script>
 
-// 🎬 render
-function render(list) {
-  const container = document.getElementById("movieList");
-  container.innerHTML = "";
+// 🎬 สร้างการ์ด (Netflix style)
+function createCard(m) {
+  return `
+    <div class="relative min-w-[220px] group cursor-pointer"
+      onclick="openPlayer('${m.video}')">
 
-  list.forEach(m => {
-    container.innerHTML += `
-      <div class="relative min-w-[220px] group cursor-pointer"
-        onclick="openPlayer('${m.video}')">
+      <img src="${m.thumbnail}"
+        class="rounded-lg transition duration-300 group-hover:scale-125 z-10 relative">
 
-        <img src="${m.thumbnail}" 
-          class="rounded-xl shadow-lg transform group-hover:scale-110 transition duration-300">
+      <!-- preview -->
+      <video class="absolute top-0 left-0 w-full h-full object-cover opacity-0 
+        group-hover:opacity-100 transition duration-300 rounded-lg"
+        muted loop
+        onmouseenter="playPreview(this)"
+        onmouseleave="stopPreview(this)">
+        <source src="${m.preview}" type="video/mp4">
+      </video>
 
-        <!-- overlay -->
-        <div class="absolute inset-0 bg-black bg-opacity-60 opacity-0 
-          group-hover:opacity-100 transition flex flex-col justify-end p-3 rounded-xl">
+      <!-- overlay -->
+      <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 
+        group-hover:opacity-100 transition p-3 flex flex-col justify-end rounded-lg">
 
-          <p class="text-lg font-bold">${m.title}</p>
+        <p class="font-bold">${m.title}</p>
 
-          <button class="mt-2 bg-red-600 px-3 py-1 rounded hover:bg-red-700">
-            ▶ ดู
-          </button>
+        <div class="flex gap-2 mt-2">
+          <button class="bg-white text-black px-2 py-1 rounded">▶</button>
+          <button class="bg-gray-700 px-2 py-1 rounded">+</button>
         </div>
-
-        <!-- preview -->
-        <video class="absolute top-0 left-0 w-full h-full object-cover opacity-0 
-          group-hover:opacity-100 transition duration-300 rounded-xl"
-          muted loop onmouseover="this.play()" onmouseout="this.pause()">
-          <source src="${m.preview}" type="video/mp4">
-        </video>
-
       </div>
-    `;
+
+    </div>
+  `;
+}
+
+// 🎞️ render row
+function renderRow(id, list) {
+  const container = document.getElementById(id);
+  container.innerHTML = "";
+  list.forEach(m => {
+    container.innerHTML += createCard(m);
   });
 }
 
@@ -85,21 +109,35 @@ function openPlayer(video) {
   window.location.href = "player.html?video=" + video;
 }
 
-// 🔍 ค้นหา
+// 🎥 delay preview (Netflix feel)
+let previewTimeout;
+
+function playPreview(video) {
+  previewTimeout = setTimeout(() => {
+    video.play();
+  }, 500);
+}
+
+function stopPreview(video) {
+  clearTimeout(previewTimeout);
+  video.pause();
+  video.currentTime = 0;
+}
+
+// 🔍 search
 document.getElementById("search").addEventListener("input", e => {
   const val = e.target.value.toLowerCase();
   const filtered = movies.filter(m => m.title.toLowerCase().includes(val));
-  render(filtered);
+
+  renderRow("row-all", filtered);
+  renderRow("row-action", filtered.filter(m => m.category === "action"));
+  renderRow("row-vlogs", filtered.filter(m => m.category === "vlogs"));
 });
 
-// 🎞️ filter
-function filter(cat) {
-  if(cat === "all") render(movies);
-  else render(movies.filter(m => m.category === cat));
-}
-
 // โหลดครั้งแรก
-render(movies);
+renderRow("row-all", movies);
+renderRow("row-action", movies.filter(m => m.category === "action"));
+renderRow("row-vlogs", movies.filter(m => m.category === "vlogs"));
 
 </script>
 
