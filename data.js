@@ -2,7 +2,7 @@ const movies = [
   {
     title: "Fast Action",
     category: "Bball",
-    thumbnail: "123.jpg",
+    thumbnail: "img/123.jpg",
     video: "https://drive.google.com/uc?export=download&id=1DgPjq5xlNzYMJjRRJikICaSrbeIIzRr9",
     preview: "https://www.w3schools.com/html/mov_bbb.mp4"
   },
